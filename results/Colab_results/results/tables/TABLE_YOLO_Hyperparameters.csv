@@ -1,0 +1,2 @@
+epochs,imgsz,batch,optimizer,lr0,lrf,weight_decay,warmup_epochs,patience,aug_mosaic,aug_flipud,aug_fliplr
+100,640,16,AdamW,0.001,0.01,0.0005,3,20,1.0,0.0,0.5

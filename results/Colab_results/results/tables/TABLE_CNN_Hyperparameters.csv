@@ -1,0 +1,2 @@
+epochs_total,freeze_epochs,batch_size,lr_stage1,lr_stage2,weight_decay,scheduler,patience,loss,sampler_ksdd2,pretrained
+50,5,32,1e-4,1e-5,1e-4,CosineAnnealingLR,10,CrossEntropyLoss (class-weighted),WeightedRandomSampler,ImageNet-1k

@@ -1,0 +1,4 @@
+dataset,model,split,map50,map50_95,precision,recall,f1,model_label
+DAGM,yolov8s,test,0.9931,0.6223,0.9674,0.9898,0.9785,YOLOv8s
+KSDD2,yolov8n,test,0.6673,0.3552,0.7466,0.6481,0.6939,YOLOv8n
+NEU-DET,yolov8n,test,0.7235,0.4,0.6336,0.7187,0.6735,YOLOv8n

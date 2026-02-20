@@ -1,0 +1,7 @@
+dataset,model,model_label,params_M,map50,map50_95,latency_ms_est,energy_Ws_est,fps_est
+NEU-DET,yolov8n,YOLOv8n,3.2,0.7235,0.4,12.0,0.8,83.3
+NEU-DET,yolov8s,YOLOv8s,11.2,0.7191,0.4047,22.0,1.5,45.5
+DAGM,yolov8n,YOLOv8n,3.2,0.991,0.6363,12.0,0.8,83.3
+DAGM,yolov8s,YOLOv8s,11.2,0.9931,0.6223,22.0,1.5,45.5
+KSDD2,yolov8n,YOLOv8n,3.2,0.6673,0.3552,12.0,0.8,83.3
+KSDD2,yolov8s,YOLOv8s,11.2,0.6422,0.3417,22.0,1.5,45.5

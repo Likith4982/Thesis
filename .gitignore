@@ -1,0 +1,46 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+
+# Datasets (large, regenerate via Colab notebook 01)
+datasets/
+
+# Trained models (large, download from Google Drive or retrain)
+models/
+
+# Training run artifacts
+runs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Jupyter checkpoint files
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Large binary files (if accidentally placed at root)
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.engine
+
+# Temporary files
+*.tmp
+*.log
+*.bak

@@ -1,0 +1,4 @@
+dataset,model,num_classes,test_accuracy,test_f1_macro,best_val_f1,train_time_min,status,model_label
+DAGM,resnet50,2,0.9948,0.9882,0.9971,47.8,trained,ResNet-50
+KSDD2,resnet50,2,0.9721,0.9328,0.966,49.2,trained,ResNet-50
+NEU-DET,resnet50,5,0.9988,0.999,0.9958,34.9,trained,ResNet-50

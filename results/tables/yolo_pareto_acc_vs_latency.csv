@@ -1,0 +1,3 @@
+dataset,model,format,model_path,eval_time_s,map50,map50_95,precision,recall,f1,status,latency_ms,p95_ms,fps,size_mb,wh_per_1000,avg_cpu_pct
+DAGM,yolov8n,pytorch,models\yolo\full\DAGM_yolov8n_best.pt,82.2,0.995,0.6567,0.9899,1.0,0.9949,ok,69.36,73.58,14.4,6.25,0.14617,66.0
+NEU-DET,yolov8n,pytorch,models\yolo\full\NEU-DET_yolov8n_best.pt,23.7,0.7148,0.4268,0.7459,0.6795,0.7112,ok,55.67,59.33,18.0,6.26,0.33939,67.0

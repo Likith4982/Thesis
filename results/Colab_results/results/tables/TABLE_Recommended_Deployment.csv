@@ -1,0 +1,4 @@
+scenario,yolo_model,cnn_model,format,target_fps,notes
+Highest accuracy (cloud GPU),YOLOv8m,ResNet-50,PyTorch FP32,5-15,Requires discrete GPU; T4 / A100 recommended
+Balanced (edge CPU),YOLOv8n,EfficientNet-B0,ONNX INT8,3-8,Intel i5-1335U or Raspberry Pi 5 compatible
+Fastest (mobile / microcontroller),YOLOv8n,MobileNetV3-L,TFLite INT8,1-5,ARM Cortex-A / Android NPU compatible

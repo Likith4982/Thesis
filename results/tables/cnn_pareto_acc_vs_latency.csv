@@ -1,0 +1,6 @@
+accuracy,f1_macro,num_samples,status,dataset,model,format,eval_s,latency_ms,p95_ms,fps,size_mb,wh_per_1000,avg_cpu_pct
+0.9988,0.999,805,ok,NEU-DET,resnet50,onnx_fp32,106.6,33.79,35.56,29.6,94.17,0.10383,81.3
+0.9963,0.9964,805,ok,NEU-DET,resnet50,tflite_int8,39.3,28.71,30.23,34.8,23.92,0.01002,8.5
+0.9863,0.9857,805,ok,NEU-DET,mobilenet_v3_large,onnx_fp32,8.3,5.37,5.89,186.1,17.1,0.0117,67.1
+0.9935,0.9853,766,ok,DAGM,resnet50,tflite_int8,40.7,28.67,30.5,34.9,23.91,0.01206,10.2
+0.9634,0.9159,766,ok,DAGM,mobilenet_v3_large,onnx_fp32,83.6,5.34,5.9,187.3,17.08,0.01142,66.3

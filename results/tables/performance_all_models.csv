@@ -1,0 +1,61 @@
+load_ms,mean_ms,std_ms,p50_ms,p95_ms,fps,status,dataset,model,format,type,size_mb,error
+48.1,55.67,2.79,55.84,59.33,18.0,ok,NEU-DET,yolov8n,pytorch,yolo,6.26,
+109.8,37.91,2.39,38.31,40.48,26.4,ok,NEU-DET,yolov8n,onnx_fp32,yolo,12.31,
+,,,,,,error,NEU-DET,yolov8n,onnx_int8,yolo,3.4,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+50.5,79.57,10.64,77.07,94.33,12.6,ok,NEU-DET,yolov8n,tflite,yolo,12.28,
+40.7,161.62,13.61,165.63,177.81,6.2,ok,NEU-DET,yolov8s,pytorch,yolo,22.53,
+222.4,131.0,51.03,112.6,209.07,7.6,ok,NEU-DET,yolov8s,onnx_fp32,yolo,44.8,
+,,,,,,error,NEU-DET,yolov8s,onnx_int8,yolo,11.54,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+43.1,97.19,49.63,76.11,227.96,10.3,ok,NEU-DET,yolov8s,tflite,yolo,12.28,
+29.6,69.36,3.01,69.82,73.58,14.4,ok,DAGM,yolov8n,pytorch,yolo,6.25,
+133.9,43.64,1.29,43.66,45.74,22.9,ok,DAGM,yolov8n,onnx_fp32,yolo,12.31,
+,,,,,,error,DAGM,yolov8n,onnx_int8,yolo,3.4,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+28.7,78.04,1.74,78.02,80.95,12.8,ok,DAGM,yolov8n,tflite,yolo,12.28,
+29.0,181.93,4.53,181.6,189.55,5.5,ok,DAGM,yolov8s,pytorch,yolo,22.52,
+195.2,132.71,5.43,131.74,143.16,7.5,ok,DAGM,yolov8s,onnx_fp32,yolo,44.79,
+,,,,,,error,DAGM,yolov8s,onnx_int8,yolo,11.53,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+32.0,82.38,1.82,82.29,85.21,12.1,ok,DAGM,yolov8s,tflite,yolo,12.28,
+28.3,80.36,2.96,80.53,84.67,12.4,ok,KSDD2,yolov8n,pytorch,yolo,6.25,
+122.7,52.19,1.48,52.11,54.07,19.2,ok,KSDD2,yolov8n,onnx_fp32,yolo,12.31,
+,,,,,,error,KSDD2,yolov8n,onnx_int8,yolo,3.4,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+34.1,84.08,3.71,83.56,88.07,11.9,ok,KSDD2,yolov8n,tflite,yolo,12.28,
+33.9,200.22,7.35,198.34,214.07,5.0,ok,KSDD2,yolov8s,pytorch,yolo,22.52,
+218.3,142.15,2.61,141.76,146.48,7.0,ok,KSDD2,yolov8s,onnx_fp32,yolo,44.79,
+,,,,,,error,KSDD2,yolov8s,onnx_int8,yolo,11.53,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name '/model.0/conv/Conv_quant'
+33.0,83.95,2.72,83.76,87.13,11.9,ok,KSDD2,yolov8s,tflite,yolo,12.28,
+303.9,33.79,1.02,33.71,35.56,29.6,ok,NEU-DET,resnet50,onnx_fp32,cnn,94.17,
+,,,,,,error,NEU-DET,resnet50,onnx_int8,cnn,23.75,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_753_quant'
+120.4,83.58,3.38,82.95,89.65,12.0,ok,NEU-DET,resnet50,tflite_fp32,cnn,94.0,
+29.7,28.71,0.84,28.6,30.23,34.8,ok,NEU-DET,resnet50,tflite_int8,cnn,23.92,
+69.7,9.78,0.68,9.83,10.57,102.2,ok,NEU-DET,efficientnet_b0,onnx_fp32,cnn,16.53,
+,,,,,,error,NEU-DET,efficientnet_b0,onnx_int8,cnn,4.54,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_778_quant'
+16.3,12.81,0.7,12.69,13.82,78.1,ok,NEU-DET,efficientnet_b0,tflite_fp32,cnn,16.03,
+8.2,46.01,1.6,45.54,49.25,21.7,ok,NEU-DET,efficientnet_b0,tflite_int8,cnn,4.53,
+62.4,5.37,0.43,5.48,5.89,186.1,ok,NEU-DET,mobilenet_v3_large,onnx_fp32,cnn,17.1,
+,,,,,,error,NEU-DET,mobilenet_v3_large,onnx_int8,cnn,4.5,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_671_quant'
+17.6,6.08,0.36,5.97,6.84,164.6,ok,NEU-DET,mobilenet_v3_large,tflite_fp32,cnn,16.83,
+7.6,20.87,0.52,20.71,21.77,47.9,ok,NEU-DET,mobilenet_v3_large,tflite_int8,cnn,4.53,
+279.7,33.98,1.16,33.82,35.99,29.4,ok,DAGM,resnet50,onnx_fp32,cnn,94.15,
+,,,,,,error,DAGM,resnet50,onnx_int8,cnn,23.74,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_753_quant'
+123.4,82.75,2.1,82.57,86.21,12.1,ok,DAGM,resnet50,tflite_fp32,cnn,93.97,
+29.7,28.67,0.96,28.51,30.5,34.9,ok,DAGM,resnet50,tflite_int8,cnn,23.91,
+70.6,9.84,0.57,9.9,10.55,101.6,ok,DAGM,efficientnet_b0,onnx_fp32,cnn,16.52,
+,,,,,,error,DAGM,efficientnet_b0,onnx_int8,cnn,4.54,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_778_quant'
+16.7,12.61,0.59,12.52,13.74,79.3,ok,DAGM,efficientnet_b0,tflite_fp32,cnn,16.02,
+8.7,45.55,0.89,45.51,46.99,22.0,ok,DAGM,efficientnet_b0,tflite_int8,cnn,4.52,
+63.5,5.34,0.5,5.48,5.9,187.3,ok,DAGM,mobilenet_v3_large,onnx_fp32,cnn,17.08,
+,,,,,,error,DAGM,mobilenet_v3_large,onnx_int8,cnn,4.49,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_671_quant'
+18.1,6.11,0.41,5.98,6.99,163.6,ok,DAGM,mobilenet_v3_large,tflite_fp32,cnn,16.82,
+7.3,20.89,0.66,20.73,21.93,47.9,ok,DAGM,mobilenet_v3_large,tflite_int8,cnn,4.52,
+270.9,33.83,1.16,33.78,35.64,29.6,ok,KSDD2,resnet50,onnx_fp32,cnn,94.15,
+,,,,,,error,KSDD2,resnet50,onnx_int8,cnn,23.74,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_753_quant'
+120.9,83.19,2.13,83.06,86.64,12.0,ok,KSDD2,resnet50,tflite_fp32,cnn,93.97,
+30.2,28.77,0.95,28.66,30.42,34.8,ok,KSDD2,resnet50,tflite_int8,cnn,23.91,
+68.3,9.93,0.79,9.99,10.89,100.7,ok,KSDD2,efficientnet_b0,onnx_fp32,cnn,16.52,
+,,,,,,error,KSDD2,efficientnet_b0,onnx_int8,cnn,4.54,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_778_quant'
+16.8,12.52,0.65,12.38,13.9,79.9,ok,KSDD2,efficientnet_b0,tflite_fp32,cnn,16.02,
+7.8,45.71,1.03,45.62,47.26,21.9,ok,KSDD2,efficientnet_b0,tflite_int8,cnn,4.52,
+65.3,5.35,0.43,5.49,5.9,186.8,ok,KSDD2,mobilenet_v3_large,onnx_fp32,cnn,17.08,
+,,,,,,error,KSDD2,mobilenet_v3_large,onnx_int8,cnn,4.49,[ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for ConvInteger(10) node with name 'node_Conv_671_quant'
+17.9,6.04,0.42,5.9,7.01,165.5,ok,KSDD2,mobilenet_v3_large,tflite_fp32,cnn,16.82,
+6.8,20.91,0.51,20.81,21.81,47.8,ok,KSDD2,mobilenet_v3_large,tflite_int8,cnn,4.52,

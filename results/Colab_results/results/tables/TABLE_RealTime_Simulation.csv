@@ -1,0 +1,10 @@
+model,dataset,yolo_latency_ms,cnn_latency_ms,total_latency_ms,fps,note
+yolov8n+resnet50,NEU-DET,28.9,11.3,16.1,11.4,synthetic placeholder — run Notebook 04b
+yolov8s+resnet50,NEU-DET,28.9,8.3,47.9,23.2,synthetic placeholder — run Notebook 04b
+yolov8m+resnet50,NEU-DET,8.2,8.2,38.8,8.5,synthetic placeholder — run Notebook 04b
+yolov8n+resnet50,DAGM,19.4,13.1,32.6,20.9,synthetic placeholder — run Notebook 04b
+yolov8s+resnet50,DAGM,26.1,5.9,44.9,15.2,synthetic placeholder — run Notebook 04b
+yolov8m+resnet50,DAGM,22.6,5.1,46.9,22.8,synthetic placeholder — run Notebook 04b
+yolov8n+resnet50,KSDD2,26.9,14.7,21.1,10.0,synthetic placeholder — run Notebook 04b
+yolov8s+resnet50,KSDD2,9.2,6.5,35.5,15.0,synthetic placeholder — run Notebook 04b
+yolov8m+resnet50,KSDD2,36.5,11.4,29.2,24.1,synthetic placeholder — run Notebook 04b

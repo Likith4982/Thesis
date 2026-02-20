@@ -1,0 +1,39 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# requirements_local.txt
+# Local Windows CPU — Inference, benchmarking, and reporting only
+# Hardware: Intel Core i5-1335U, 16 GB RAM, Windows 11 64-bit, No GPU
+# Install with:  pip install -r requirements_local.txt
+#
+# For CPU-only PyTorch (saves disk space):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements_local.txt
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Object Detection (YOLO inference on CPU) ────────────────────────────────
+ultralytics>=8.0.0
+
+# ── PyTorch (CPU-only) ─────────────────────────────────────────────────────
+torch>=2.0
+torchvision>=0.15
+
+# ── ONNX Runtime (CPU inference) ───────────────────────────────────────────
+onnxruntime>=1.15
+
+# ── TFLite inference ───────────────────────────────────────────────────────
+tensorflow>=2.13
+
+# ── Image processing ───────────────────────────────────────────────────────
+opencv-python>=4.8
+
+# ── Data processing ─────────────────────────────────────────────────────────
+pandas>=2.0
+scikit-learn>=1.3
+tqdm
+
+# ── Visualization ──────────────────────────────────────────────────────────
+matplotlib>=3.7
+seaborn>=0.12
+openpyxl
+
+# ── System monitoring (energy estimation) ──────────────────────────────────
+psutil>=5.9

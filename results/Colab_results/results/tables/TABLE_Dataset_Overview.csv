@@ -1,0 +1,4 @@
+dataset,task,num_classes,annotation,split,imbalanced,notes
+NEU-DET,Detection,6,PASCAL VOC XML,70 / 15 / 15,No,Steel surface; 6 defect types
+DAGM,Detection,1,Binary mask → bbox,70 / 15 / 15,Mild,Textile; weak-texture defects
+KSDD2,Detection,1,Segmentation → bbox,70 / 15 / 15,Yes (1:12.5),Kolektor; highly imbalanced

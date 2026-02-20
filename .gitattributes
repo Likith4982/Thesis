@@ -1,0 +1,20 @@
+# Auto-detect text files and normalize line endings
+* text=auto
+
+# Explicitly mark binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.csv text
+
+# Notebooks as text (for diffing)
+*.ipynb text
+
+# Model files (if tracked via LFS in future)
+# *.pt filter=lfs diff=lfs merge=lfs -text
+# *.pth filter=lfs diff=lfs merge=lfs -text
+# *.onnx filter=lfs diff=lfs merge=lfs -text
+# *.tflite filter=lfs diff=lfs merge=lfs -text
+# *.engine filter=lfs diff=lfs merge=lfs -text

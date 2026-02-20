@@ -1,0 +1,7 @@
+pipeline,dataset,model,format,map50,latency_ms,fps,wh_per_1000,score,accuracy
+yolo,DAGM,yolov8n,pytorch,0.995,69.36,14.4,0.14617,0.946,
+yolo,KSDD2,yolov8n,pytorch,0.3274,80.36,12.4,0.16089,0.6544,
+yolo,NEU-DET,yolov8n,pytorch,0.7148,55.67,18.0,0.33939,0.8563,
+cnn,DAGM,mobilenet_v3_large,onnx_fp32,,5.34,187.3,0.01142,0.9519,0.9634
+cnn,KSDD2,mobilenet_v3_large,onnx_fp32,,5.35,186.8,0.01018,0.93,0.9381
+cnn,NEU-DET,mobilenet_v3_large,onnx_fp32,,5.37,186.1,0.0117,0.9761,0.9863
