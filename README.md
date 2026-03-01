@@ -336,7 +336,7 @@ Keep: scripts, notebooks, docs, requirements, result CSVs/figures, README.
 
 ## AI Usage Disclosure
 
-AI tools (Claude Code by Anthropic) were used for code scaffolding, experiment orchestration, and writing support. All code was manually reviewed and all empirical results were produced by running actual models. See [`docs/ai_usage_statement.md`](docs/ai_usage_statement.md) for details.
+AI tools (Claude Code by Anthropic) were used for code scaffolding, experiment orchestration, and writing support. All code was manually reviewed and all empirical results were produced by running actual models. 
 
 ---
 
