@@ -44,3 +44,6 @@ desktop.ini
 *.tmp
 *.log
 *.bak
+
+# Temporary figure smoke-test output
+results/_tmp_figures_smoketest/

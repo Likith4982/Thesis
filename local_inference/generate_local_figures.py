@@ -70,6 +70,8 @@ def parse_args():
     parser.add_argument('--output_dir', type=str, default=None)
     parser.add_argument('--format', type=str, nargs='+', default=['png'])
     parser.add_argument('--dpi', type=int, default=300)
+    parser.add_argument('--figures', type=str, nargs='+', default=None,
+                        help='Optional figure numbers to generate, e.g. --figures 21 31 33')
     return parser.parse_args()
 
 
@@ -88,6 +90,15 @@ def save_fig(fig, out_dir: str, name: str, formats: list, dpi: int):
         fig.savefig(p, dpi=dpi, bbox_inches='tight')
         logger.info(f'Saved: {p}')
     plt.close(fig)
+
+
+def remove_fig_outputs(out_dir: str, name: str, formats: list):
+    """Remove stale outputs for a figure name if they exist."""
+    for fmt in formats:
+        p = os.path.join(out_dir, f'{name}.{fmt}')
+        if os.path.exists(p):
+            os.remove(p)
+            logger.info(f'Removed stale figure: {p}')
 
 
 def pareto_front(xs, ys, minimize_x=True, maximize_y=True):
@@ -112,6 +123,86 @@ def pareto_front(xs, ys, minimize_x=True, maximize_y=True):
 
 def fmt_order_key(fmt):
     return FORMAT_ORDER.index(fmt) if fmt in FORMAT_ORDER else 99
+
+
+def sort_plot_rows(df: pd.DataFrame) -> pd.DataFrame:
+    """Sort rows consistently for table-driven plots."""
+    ordered = df.copy()
+    if 'dataset' in ordered.columns:
+        ordered['dataset'] = pd.Categorical(ordered['dataset'], DATASET_ORDER, ordered=True)
+    ordered['_fmt_order'] = ordered['format'].map(fmt_order_key)
+    ordered = ordered.sort_values(['dataset', 'model', '_fmt_order', 'format']).drop(columns=['_fmt_order'])
+    if 'dataset' in ordered.columns:
+        ordered['dataset'] = ordered['dataset'].astype(str)
+    return ordered
+
+
+def format_annotation_table(df: pd.DataFrame) -> pd.DataFrame:
+    """Return string annotations with blanks for missing values."""
+    return df.apply(lambda col: col.map(
+        lambda v: '' if pd.isna(v) else f'{v:.3f}'.rstrip('0').rstrip('.')
+    ))
+
+
+def build_metric_panel(master_all: pd.DataFrame, pipeline_name: str,
+                       metric_cols: list[str], fallback_cols: list[str]) -> pd.DataFrame:
+    """Select rows and metrics for a single Fig 31 panel."""
+    if master_all.empty:
+        return pd.DataFrame()
+
+    panel_cols = ['dataset', 'model', 'format'] + [c for c in metric_cols if c in master_all.columns]
+    if len(panel_cols) <= 3:
+        return pd.DataFrame()
+
+    if 'pipeline' in master_all.columns:
+        panel_df = master_all[master_all['pipeline'].eq(pipeline_name)].copy()
+    else:
+        present_fallback = [c for c in fallback_cols if c in master_all.columns]
+        if not present_fallback:
+            return pd.DataFrame()
+        panel_df = master_all[master_all[present_fallback].notna().any(axis=1)].copy()
+
+    if panel_df.empty:
+        return pd.DataFrame()
+
+    panel_df = sort_plot_rows(panel_df[panel_cols].copy())
+    panel_df = panel_df[panel_df[panel_cols[3:]].notna().any(axis=1)]
+    if panel_df.empty:
+        return pd.DataFrame()
+
+    panel_df['row_label'] = panel_df['dataset'] + ' | ' + panel_df['model'] + ' | ' + panel_df['format']
+    return panel_df
+
+
+def save_metric_heatmap(panel_name: str, panel_df: pd.DataFrame, out_dir: str,
+                        filename: str, title: str, fmts: list, dpi: int):
+    """Save a single metric heatmap panel as its own figure."""
+    metric_cols = [c for c in panel_df.columns if c not in ['dataset', 'model', 'format', 'row_label']]
+    if not metric_cols:
+        logger.warning(f'Fig 31 {panel_name}: no metric columns'); return
+
+    heat = panel_df.set_index('row_label')[metric_cols]
+    heat_norm = (heat - heat.min()) / (heat.max() - heat.min() + 1e-9)
+    annot = format_annotation_table(heat)
+
+    fig_height = max(6, len(panel_df) * 0.34)
+    fig_width = max(8.5, len(metric_cols) * 1.25 + 2.5)
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    sns.heatmap(
+        heat_norm,
+        ax=ax,
+        cmap='RdYlGn',
+        annot=annot,
+        fmt='',
+        linewidths=0.3,
+        cbar_kws={'label': 'Normalised value'},
+    )
+    ax.set_title(title)
+    ax.set_xlabel('')
+    ax.tick_params(axis='y', labelsize=7)
+    ax.tick_params(axis='x', rotation=0)
+    fig.subplots_adjust(left=0.28, right=0.93, top=0.94, bottom=0.08)
+    save_fig(fig, out_dir, filename, fmts, dpi)
 
 
 # ── Figure functions ──────────────────────────────────────────────────────────
@@ -360,26 +451,47 @@ def fig30_radar(master_yolo: pd.DataFrame, master_cnn: pd.DataFrame, out_dir, fm
 
 
 def fig31_all_metrics_heatmap(master_all: pd.DataFrame, out_dir, fmts, dpi):
-    """Heatmap of normalised metrics for all model+format combos."""
+    """Save separate YOLO and CNN heatmaps for Fig 31."""
     if master_all.empty:
         logger.warning('Fig 31: no master_all data'); return
 
-    num_cols = ['map50', 'accuracy', 'f1_macro', 'latency_ms', 'fps', 'wh_per_1000', 'size_mb']
-    avail = [c for c in num_cols if c in master_all.columns]
-    if not avail:
-        logger.warning('Fig 31: no numeric cols'); return
+    remove_fig_outputs(out_dir, 'fig31_all_metrics_heatmap', fmts)
 
-    df = master_all[['dataset', 'model', 'format'] + avail].dropna(subset=avail[:1])
-    df['row_label'] = df['dataset'] + ' | ' + df['model'] + ' | ' + df['format']
-    heat = df.set_index('row_label')[avail]
-    heat_norm = (heat - heat.min()) / (heat.max() - heat.min() + 1e-9)
+    yolo_df = build_metric_panel(master_all, 'yolo',
+                                 ['map50', 'latency_ms', 'fps', 'wh_per_1000', 'size_mb'],
+                                 ['map50'])
+    cnn_df = build_metric_panel(master_all, 'cnn',
+                                ['accuracy', 'f1_macro', 'latency_ms', 'fps', 'wh_per_1000', 'size_mb'],
+                                ['accuracy', 'f1_macro'])
 
-    fig, ax = plt.subplots(figsize=(max(8, len(avail) * 1.2), max(6, len(df) * 0.3)))
-    sns.heatmap(heat_norm, ax=ax, cmap='RdYlGn', annot=heat.round(3).astype(str),
-                fmt='', linewidths=0.3, cbar_kws={'label': 'Normalised value'})
-    ax.set_title('Fig 31 — All Metrics Heatmap (Normalised)')
-    ax.tick_params(axis='y', labelsize=7)
-    save_fig(fig, out_dir, 'fig31_all_metrics_heatmap', fmts, dpi)
+    if yolo_df.empty and cnn_df.empty:
+        logger.warning('Fig 31: no YOLO/CNN panel data'); return
+
+    if not yolo_df.empty:
+        save_metric_heatmap(
+            'YOLO',
+            yolo_df,
+            out_dir,
+            'fig31_yolo_metrics_heatmap',
+            'Fig 31A — YOLO Metrics Heatmap (Normalised)',
+            fmts,
+            dpi,
+        )
+    else:
+        logger.warning('Fig 31A: no YOLO panel data')
+
+    if not cnn_df.empty:
+        save_metric_heatmap(
+            'CNN',
+            cnn_df,
+            out_dir,
+            'fig31_cnn_metrics_heatmap',
+            'Fig 31B — CNN Metrics Heatmap (Normalised)',
+            fmts,
+            dpi,
+        )
+    else:
+        logger.warning('Fig 31B: no CNN panel data')
 
 
 def fig32_pipeline_latency(combined: pd.DataFrame, out_dir, fmts, dpi):
@@ -447,23 +559,38 @@ def main():
     fmts = args.format
     dpi  = args.dpi
 
-    fig21_yolo_latency(perf, out_dir, fmts, dpi)
-    fig22_cnn_latency(perf, out_dir, fmts, dpi)
-    fig23_fps_comparison(perf, out_dir, fmts, dpi)
-    fig24_energy_comparison(energy, out_dir, fmts, dpi)
-    fig25_yolo_boxplot(perf, out_dir, fmts, dpi)
-    fig26_cnn_boxplot(perf, out_dir, fmts, dpi)
-    fig27_yolo_pareto(master_yolo, out_dir, fmts, dpi)
-    fig28_cnn_pareto(master_cnn, out_dir, fmts, dpi)
-    fig29_cnn_size_scatter(master_cnn, out_dir, fmts, dpi)
-    fig30_radar(master_yolo, master_cnn, out_dir, fmts, dpi)
-    fig31_all_metrics_heatmap(master_all, out_dir, fmts, dpi)
-    fig32_pipeline_latency(combined, out_dir, fmts, dpi)
-    fig33_pipeline_breakdown(combined, out_dir, fmts, dpi)
+    figure_registry = {
+        '21': lambda: fig21_yolo_latency(perf, out_dir, fmts, dpi),
+        '22': lambda: fig22_cnn_latency(perf, out_dir, fmts, dpi),
+        '23': lambda: fig23_fps_comparison(perf, out_dir, fmts, dpi),
+        '24': lambda: fig24_energy_comparison(energy, out_dir, fmts, dpi),
+        '25': lambda: fig25_yolo_boxplot(perf, out_dir, fmts, dpi),
+        '26': lambda: fig26_cnn_boxplot(perf, out_dir, fmts, dpi),
+        '27': lambda: fig27_yolo_pareto(master_yolo, out_dir, fmts, dpi),
+        '28': lambda: fig28_cnn_pareto(master_cnn, out_dir, fmts, dpi),
+        '29': lambda: fig29_cnn_size_scatter(master_cnn, out_dir, fmts, dpi),
+        '30': lambda: fig30_radar(master_yolo, master_cnn, out_dir, fmts, dpi),
+        '31': lambda: fig31_all_metrics_heatmap(master_all, out_dir, fmts, dpi),
+        '32': lambda: fig32_pipeline_latency(combined, out_dir, fmts, dpi),
+        '33': lambda: fig33_pipeline_breakdown(combined, out_dir, fmts, dpi),
+    }
 
-    saved = list(Path(out_dir).glob('fig*.png')) + list(Path(out_dir).glob('fig*.pdf'))
+    selected_figures = list(figure_registry.keys()) if args.figures is None else args.figures
+    unknown_figures = [fig_id for fig_id in selected_figures if fig_id not in figure_registry]
+    if unknown_figures:
+        invalid = ', '.join(sorted(set(unknown_figures)))
+        raise SystemExit(f'Unknown figure id(s): {invalid}. Valid ids: {", ".join(figure_registry)}')
+
+    for fig_id in selected_figures:
+        logger.info(f'Generating Fig {fig_id}')
+        figure_registry[fig_id]()
+
+    saved = []
+    for fig_id in selected_figures:
+        saved.extend(sorted(Path(out_dir).glob(f'fig{fig_id}*.png')))
+        saved.extend(sorted(Path(out_dir).glob(f'fig{fig_id}*.pdf')))
     print('\n' + '='*60)
-    print(f'Generated {len(saved)} figure files in: {out_dir}')
+    print(f'Generated {len(saved)} figure file(s) in: {out_dir}')
     for p in sorted(saved):
         print(f'  {p.name}')
     print('='*60)
