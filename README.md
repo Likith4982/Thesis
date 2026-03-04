@@ -1,7 +1,7 @@
 # Computer Vision and Deep Learning for Real-Time Quality Inspection in Manufacturing
 
 Master Thesis Project
-Author: Likith
+Author: Likith Jayaram Gowda
 Target Hardware (local/edge): Intel Core i5-1335U | 16 GB RAM | Windows 11 | CPU-only
 
 ---
